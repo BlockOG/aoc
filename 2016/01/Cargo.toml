@@ -1,0 +1,12 @@
+[package]
+name = "y2016d01"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "y2016d01"
+path = "src/01.rs"
+
+[dependencies]
+aoclib = "0.2.1"
+parse-display = "0.8.2"

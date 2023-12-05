@@ -228,6 +228,46 @@ dependencies = [
 ]
 
 [[package]]
+name = "y2016d01"
+version = "0.1.0"
+dependencies = [
+ "aoclib",
+ "parse-display",
+]
+
+[[package]]
+name = "y2016d02"
+version = "0.1.0"
+dependencies = [
+ "aoclib",
+ "parse-display",
+]
+
+[[package]]
+name = "y2016d03"
+version = "0.1.0"
+dependencies = [
+ "aoclib",
+ "itertools",
+]
+
+[[package]]
+name = "y2016d04"
+version = "0.1.0"
+dependencies = [
+ "aoclib",
+ "parse-display",
+]
+
+[[package]]
+name = "y2016d05"
+version = "0.1.0"
+dependencies = [
+ "aoclib",
+ "md5",
+]
+
+[[package]]
 name = "y2017d01"
 version = "0.1.0"
 dependencies = [

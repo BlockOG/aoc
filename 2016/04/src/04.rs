@@ -1,27 +1,29 @@
 aoc::parts!(1, 2);
 
+const ROOM: [&str; 3] = ["northpole", "object", "storage"];
+
 fn part_1(input: aoc::Input) -> impl ToString {
     input
         .lines()
-        .filter_map(|i| {
+        .filter_map(|line| {
             let mut chars = [0; 26];
             let mut sorted: Vec<(u8, u32)> = vec![];
-            let mut j = 0;
+            let mut i = 0;
 
             let mut num = 0;
             let mut cs = false;
-            for i in i.bytes() {
+            for byte in line.bytes() {
                 if cs {
-                    if i == b']' {
+                    if byte == b']' {
                         return Some(num);
                     }
-                    if i - b'a' != sorted[j].0 {
+                    if byte - b'a' != sorted[i].0 {
                         return None;
                     }
-                    j += 1;
-                } else if i.is_ascii_digit() {
-                    num = num * 10 + (i - b'0') as u32;
-                } else if i == b'[' {
+                    i += 1;
+                } else if byte.is_ascii_digit() {
+                    num = num * 10 + (byte - b'0') as u32;
+                } else if byte == b'[' {
                     cs = true;
                     sorted = chars
                         .into_iter()
@@ -29,8 +31,8 @@ fn part_1(input: aoc::Input) -> impl ToString {
                         .map(|i| (i.0 as u8, i.1))
                         .collect();
                     sorted.sort_by_key(|i| 24 - i.1);
-                } else if i != b'-' {
-                    chars[(i - b'a') as usize] += 1;
+                } else if byte != b'-' {
+                    chars[(byte - b'a') as usize] += 1;
                 }
             }
 
@@ -40,33 +42,29 @@ fn part_1(input: aoc::Input) -> impl ToString {
 }
 
 fn part_2(input: aoc::Input) -> impl ToString {
-    for i in input.lines() {
+    'outer: for line in input.lines() {
         let mut num = 0;
-        let mut s = String::new();
-        for i in i.bytes() {
-            if i == b'[' {
+        let mut i = 0;
+        let mut j = 0;
+        for byte in line.bytes() {
+            if byte == b'[' {
                 break;
-            } else if i.is_ascii_digit() {
-                num = num * 10 + (i - b'0') as u32;
-            } else if i == b'-' {
-                s.push(' ');
+            } else if byte.is_ascii_digit() {
+                num = num * 10 + (byte - b'0') as u32;
+            } else if byte == b'-' {
+                if i != ROOM[j].len() {
+                    continue 'outer;
+                }
+
+                j += 1;
+                i = 0;
             } else {
-                s.push(i as char);
+                i += 1;
             }
         }
 
-        for i in s.bytes() {
-            if i == b' ' {
-                print!(" ");
-            } else {
-                print!(
-                    "{}",
-                    ((((i - b'a') as u32 + num) % 26) as u8 + b'a') as char
-                );
-            }
-        }
-
-        println!(" {}", num);
+        return num;
     }
-    0
+
+    unreachable!()
 }

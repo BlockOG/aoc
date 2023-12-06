@@ -1,7 +1,9 @@
 aoc::parts!(1, 2);
 
+const N: usize = 140;
+
 fn part_1(input: aoc::Input) -> impl ToString {
-    let mut symbols = [[false; 140]; 140];
+    let mut symbols = [[false; N]; N];
     for (y, line) in input.lines().enumerate() {
         for (x, i) in line.bytes().enumerate() {
             if i != b'.' && !i.is_ascii_digit() {
@@ -14,28 +16,29 @@ fn part_1(input: aoc::Input) -> impl ToString {
     for (y, line) in input.lines().enumerate() {
         let line = line.as_bytes();
         let mut x = 0;
-        while x < 140 {
+        while x < N {
             if line[x].is_ascii_digit() {
                 let mut num = 0;
                 let mut has = false;
                 if x > 0 {
                     if y > 0 && symbols[x - 1][y - 1]
                         || symbols[x - 1][y]
-                        || y < 139 && symbols[x - 1][y + 1]
+                        || y < N - 1 && symbols[x - 1][y + 1]
                     {
                         has = true
                     }
                 }
-                while x < 140 && line[x].is_ascii_digit() {
+                while x < N && line[x].is_ascii_digit() {
                     num = num * 10 + (line[x] - b'0') as i32;
-                    if y > 0 && symbols[x][y - 1] || y < 139 && symbols[x][y + 1] {
+                    if y > 0 && symbols[x][y - 1] || y < N - 1 && symbols[x][y + 1] {
                         has = true
                     }
 
                     x += 1;
                 }
-                if x < 140 {
-                    if y > 0 && symbols[x][y - 1] || symbols[x][y] || y < 139 && symbols[x][y + 1] {
+                if x < N {
+                    if y > 0 && symbols[x][y - 1] || symbols[x][y] || y < N - 1 && symbols[x][y + 1]
+                    {
                         has = true
                     }
                 }
@@ -53,7 +56,7 @@ fn part_1(input: aoc::Input) -> impl ToString {
 }
 
 fn part_2(input: aoc::Input) -> impl ToString {
-    let mut symbols = [[None; 140]; 140];
+    let mut symbols = [[None; N]; N];
     for (y, line) in input.lines().enumerate() {
         for (x, i) in line.bytes().enumerate() {
             if i == b'*' {
@@ -66,7 +69,7 @@ fn part_2(input: aoc::Input) -> impl ToString {
     for (y, line) in input.lines().enumerate() {
         let line = line.as_bytes();
         let mut x = 0;
-        while x < 140 {
+        while x < N {
             if line[x].is_ascii_digit() {
                 let mut num = 0;
                 let mut hasx = 0;
@@ -82,14 +85,14 @@ fn part_2(input: aoc::Input) -> impl ToString {
                         hasx = x - 1;
                         hasy = y;
                     }
-                    if y < 139 {
+                    if y < N - 1 {
                         if symbols[x - 1][y + 1].is_some() {
                             hasx = x - 1;
                             hasy = y + 1;
                         }
                     }
                 }
-                while x < 140 && line[x].is_ascii_digit() {
+                while x < N && line[x].is_ascii_digit() {
                     num = num * 10 + (line[x] - b'0') as i32;
                     if y > 0 {
                         if symbols[x][y - 1].is_some() {
@@ -97,7 +100,7 @@ fn part_2(input: aoc::Input) -> impl ToString {
                             hasy = y - 1;
                         }
                     }
-                    if y < 139 {
+                    if y < N - 1 {
                         if symbols[x][y + 1].is_some() {
                             hasx = x;
                             hasy = y + 1;
@@ -106,7 +109,7 @@ fn part_2(input: aoc::Input) -> impl ToString {
 
                     x += 1;
                 }
-                if x < 140 {
+                if x < N {
                     if y > 0 {
                         if symbols[x][y - 1].is_some() {
                             hasx = x;
@@ -117,7 +120,7 @@ fn part_2(input: aoc::Input) -> impl ToString {
                         hasx = x;
                         hasy = y;
                     }
-                    if y < 139 {
+                    if y < N - 1 {
                         if symbols[x][y + 1].is_some() {
                             hasx = x;
                             hasy = y + 1;

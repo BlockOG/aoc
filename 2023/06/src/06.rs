@@ -23,22 +23,25 @@ fn part_2(input: aoc::Input) -> impl ToString {
     let mut time = 0;
     for i in input.lines().nth(0).unwrap().bytes() {
         if i.is_ascii_digit() {
-            time = time * 10 + (i - b'0') as u128;
+            time = time * 10 + (i - b'0') as u64;
         }
     }
     let mut distance = 0;
     for i in input.lines().nth(1).unwrap().bytes() {
         if i.is_ascii_digit() {
-            distance = distance * 10 + (i - b'0') as u128;
+            distance = distance * 10 + (i - b'0') as u64;
         }
     }
 
-    let mut start = 0;
-    for i in 1..time / 2 {
-        if i * (time - i) > distance {
-            start = i;
-            break;
+    let mut l = 1;
+    let mut r = time / 2;
+    while l < r {
+        let mid = (l + r) / 2;
+        if mid * (time - mid) > distance {
+            r = mid;
+        } else {
+            l = mid + 1;
         }
     }
-    time - start * 2 + 1
+    time - l * 2 + 1
 }

@@ -1,8 +1,8 @@
-use aoc::{Input, Parse};
+use aoc::Parse;
 
 aoc::parts!(1, 2);
 
-fn part_1(input: Input) -> impl ToString {
+fn part_1(input: aoc::Input) -> impl ToString {
     input
         .lines()
         .enumerate()
@@ -35,7 +35,7 @@ fn part_1(input: Input) -> impl ToString {
         .sum::<usize>()
 }
 
-fn part_2(input: Input) -> impl ToString {
+fn part_2(input: aoc::Input) -> impl ToString {
     input
         .lines()
         .map(|i| {

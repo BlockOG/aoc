@@ -42,7 +42,7 @@ fn part_2(input: aoc::Input) -> impl ToString {
         let mut k = i + 1;
         let mut a = [false; 100];
         let mut list = true;
-        for j in input.as_lines()[i].split(" ").skip(2) {
+        for j in input[i].split(" ").skip(2) {
             if j.chars().last() == Some(':') {
                 continue;
             }

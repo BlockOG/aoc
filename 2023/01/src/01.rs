@@ -1,5 +1,3 @@
-use aoc::Input;
-
 aoc::parts!(1, 2);
 
 const TREE: [[u8; 26]; 25] = [
@@ -173,7 +171,7 @@ const LAST_CHECK2: [u8; 24] = [
     b'n',
 ];
 
-fn part_1(input: Input) -> impl ToString {
+fn part_1(input: aoc::Input) -> impl ToString {
     input
         .lines()
         .map(|s| {
@@ -196,7 +194,7 @@ fn part_1(input: Input) -> impl ToString {
         .sum::<u32>()
 }
 
-fn part_2(input: Input) -> impl ToString {
+fn part_2(input: aoc::Input) -> impl ToString {
     input
         .lines()
         .map(|s| {

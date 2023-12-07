@@ -306,26 +306,21 @@ impl Part1Hand {
         for i in card_count {
             if i == 5 {
                 hand_type = HandType::Five;
-                break;
             } else if i == 4 {
                 hand_type = HandType::Four;
-                break;
             } else if i == 3 {
                 if hand_type == HandType::High {
                     hand_type = HandType::Three;
                 } else if hand_type == HandType::One {
                     hand_type = HandType::Full;
-                    break;
                 }
             } else if i == 2 {
                 if hand_type == HandType::High {
                     hand_type = HandType::One;
                 } else if hand_type == HandType::One {
                     hand_type = HandType::Two;
-                    break;
                 } else if hand_type == HandType::Three {
                     hand_type = HandType::Full;
-                    break;
                 }
             }
         }
@@ -627,26 +622,21 @@ impl Part2Hand {
         for i in card_count.into_iter().take(12) {
             if i == 5 {
                 hand_type = HandType::Five;
-                break;
             } else if i == 4 {
                 hand_type = HandType::Four;
-                break;
             } else if i == 3 {
                 if hand_type == HandType::High {
                     hand_type = HandType::Three;
                 } else if hand_type == HandType::One {
                     hand_type = HandType::Full;
-                    break;
                 }
             } else if i == 2 {
                 if hand_type == HandType::High {
                     hand_type = HandType::One;
                 } else if hand_type == HandType::One {
                     hand_type = HandType::Two;
-                    break;
                 } else if hand_type == HandType::Three {
                     hand_type = HandType::Full;
-                    break;
                 }
             }
         }

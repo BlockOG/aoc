@@ -1,4 +1,4 @@
-use aoc::Parse;
+use rustc_hash::FxHashMap;
 
 aoc::parts!(1, 2);
 
@@ -18,27 +18,31 @@ fn part_1(input: aoc::Input) -> impl ToString {
         })
         .collect();
 
-    let mut nodes = [(0, 0); 26 * 26 * 26];
-    for node in input.lines().skip(2) {
-        nodes[(node.idx(0) - b'A') as usize * 26 * 26
-            + (node.idx(1) - b'A') as usize * 26
-            + (node.idx(2) - b'A') as usize] = (
-            (node.idx(7) - b'A') as usize * 26 * 26
-                + (node.idx(8) - b'A') as usize * 26
-                + (node.idx(9) - b'A') as usize,
-            (node.idx(12) - b'A') as usize * 26 * 26
-                + (node.idx(13) - b'A') as usize * 26
-                + (node.idx(14) - b'A') as usize,
-        );
+    let mut nodes_indices = FxHashMap::default();
+    let mut nodes = Vec::with_capacity(input.len() - 2);
+    let mut curr = 0;
+    let mut zzz = 0;
+    for (i, node) in input.lines().skip(2).map(str::as_bytes).enumerate() {
+        let name = [node[0], node[1], node[2]];
+        nodes_indices.insert(name, i);
+        nodes.push(([node[7], node[8], node[9]], [node[12], node[13], node[14]]));
+        if name == *b"AAA" {
+            curr = i;
+        } else if name == *b"ZZZ" {
+            zzz = i;
+        }
     }
+    let nodes: Vec<_> = nodes
+        .into_iter()
+        .map(|i| (nodes_indices[&i.0], nodes_indices[&i.1]))
+        .collect();
 
-    let mut node = 0;
     for (i, instruction) in instructions.into_iter().cycle().enumerate() {
-        node = match instruction {
-            Direction::Left => nodes[node].0,
-            Direction::Right => nodes[node].1,
+        curr = match instruction {
+            Direction::Left => nodes[curr].0,
+            Direction::Right => nodes[curr].1,
         };
-        if node == 26 * 26 * 26 - 1 {
+        if curr == zzz {
             return i + 1;
         }
     }
@@ -57,24 +61,24 @@ fn part_2(input: aoc::Input) -> impl ToString {
         .collect();
     let n = instructions.len();
 
+    let mut nodes_indices = FxHashMap::default();
+    let mut nodes = Vec::with_capacity(input.len() - 2);
     let mut curr_nodes = vec![];
-    let mut nodes = [(0, 0); 26 * 26 * 26];
-    for node in input.lines().skip(2) {
-        let name = (node.idx(0) - b'A') as usize * 26 * 26
-            + (node.idx(1) - b'A') as usize * 26
-            + (node.idx(2) - b'A') as usize;
-        if node.idx(2) == b'A' {
-            curr_nodes.push(name);
+    let mut zzz = vec![false; input.len() - 2];
+    for (i, node) in input.lines().skip(2).map(str::as_bytes).enumerate() {
+        let name = [node[0], node[1], node[2]];
+        nodes_indices.insert(name, i);
+        nodes.push(([node[7], node[8], node[9]], [node[12], node[13], node[14]]));
+        if name[2] == b'A' {
+            curr_nodes.push(i);
+        } else if name[2] == b'Z' {
+            zzz[i] = true;
         }
-        nodes[name] = (
-            (node.idx(7) - b'A') as usize * 26 * 26
-                + (node.idx(8) - b'A') as usize * 26
-                + (node.idx(9) - b'A') as usize,
-            (node.idx(12) - b'A') as usize * 26 * 26
-                + (node.idx(13) - b'A') as usize * 26
-                + (node.idx(14) - b'A') as usize,
-        );
     }
+    let nodes: Vec<_> = nodes
+        .into_iter()
+        .map(|i| (nodes_indices[&i.0], nodes_indices[&i.1]))
+        .collect();
 
     let mut rep_start = vec![None; curr_nodes.len()];
 
@@ -86,7 +90,7 @@ fn part_2(input: aoc::Input) -> impl ToString {
                 Direction::Right => nodes[*node].1,
             };
 
-            if *node % 26 == 25 {
+            if zzz[*node] {
                 rep_start[j] = Some(i);
             }
 

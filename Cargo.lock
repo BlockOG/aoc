@@ -388,3 +388,11 @@ dependencies = [
  "aoclib",
  "parse-display",
 ]
+
+[[package]]
+name = "y2023d08"
+version = "0.1.0"
+dependencies = [
+ "aoclib",
+ "parse-display",
+]

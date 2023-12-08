@@ -1,10 +1,8 @@
-use std::{
-    collections::{hash_map::Entry, HashMap},
-    mem,
-};
+use std::{collections::hash_map::Entry, mem};
 
 use aoc::{IterUnwrap, Parse};
 use parse_display::FromStr;
+use rustc_hash::FxHashMap;
 
 aoc::parts!(1, 2);
 
@@ -88,7 +86,7 @@ impl Program {
 }
 
 fn part_1(input: aoc::Input) -> impl ToString {
-    let mut pr = HashMap::new();
+    let mut pr = FxHashMap::default();
     for i in input.lines() {
         for v in lower_strings(i) {
             match pr.entry(v) {
@@ -109,7 +107,7 @@ fn part_1(input: aoc::Input) -> impl ToString {
 fn part_2(input: aoc::Input) -> impl ToString {
     let mut programs: Vec<ParsedProgram> = input.lines().map(|i| i.parse_uw()).collect();
 
-    let mut hm = HashMap::new();
+    let mut hm = FxHashMap::default();
     while !programs.is_empty() {
         programs.retain_mut(|program| {
             for i in program.disk.iter() {

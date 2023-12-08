@@ -1,6 +1,7 @@
-use std::collections::{hash_map::Entry, HashMap};
+use std::collections::hash_map::Entry;
 
 use aoc::Input;
+use rustc_hash::FxHashMap;
 
 aoc::parts!(1, 2);
 
@@ -52,7 +53,7 @@ fn part_2(input: Input) -> impl ToString {
                 return false;
             }
 
-            let mut hm: HashMap<&[u8], Vec<usize>> = HashMap::new();
+            let mut hm: FxHashMap<&[u8], Vec<usize>> = FxHashMap::default();
             let mut cond = false;
             for (i, j) in s.as_bytes().windows(2).enumerate() {
                 match hm.entry(j) {

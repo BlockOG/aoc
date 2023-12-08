@@ -1,7 +1,6 @@
-use std::collections::HashMap;
-
 use aoc::Parse;
 use parse_display::FromStr;
+use rustc_hash::FxHashMap;
 
 aoc::parts!(1, 2);
 
@@ -37,7 +36,7 @@ fn part_1(input: aoc::Input) -> impl ToString {
         .map(|i| i.parse_uw::<Instruction>())
         .collect::<Vec<Instruction>>();
 
-    let mut wires: HashMap<String, u16> = HashMap::new();
+    let mut wires: FxHashMap<String, u16> = FxHashMap::default();
     while !wires.contains_key("a") {
         for instruction in instructions.iter() {
             match instruction {
@@ -172,7 +171,7 @@ fn part_2(input: aoc::Input) -> impl ToString {
         .map(|i| i.parse_uw::<Instruction>())
         .collect::<Vec<Instruction>>();
 
-    let mut wires: HashMap<String, u16> = HashMap::new();
+    let mut wires: FxHashMap<String, u16> = FxHashMap::default();
     while !wires.contains_key("a") {
         for instruction in instructions.iter() {
             match instruction {
@@ -299,7 +298,7 @@ fn part_2(input: aoc::Input) -> impl ToString {
     }
 
     let a = *wires.get("a").unwrap();
-    let mut wires: HashMap<String, u16> = HashMap::new();
+    let mut wires: FxHashMap<String, u16> = FxHashMap::default();
     wires.insert("b".to_owned(), a);
 
     while !wires.contains_key("a") {

@@ -9,3 +9,4 @@ path = "src/05.rs"
 
 [dependencies]
 aoclib = { git = "https://github.com/BlockOG/aoclib" }
+rustc-hash = "1.1.0"

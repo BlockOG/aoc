@@ -208,6 +208,7 @@ name = "y2015d05"
 version = "0.1.0"
 dependencies = [
  "aoclib",
+ "rustc-hash",
 ]
 
 [[package]]
@@ -223,6 +224,7 @@ version = "0.1.0"
 dependencies = [
  "aoclib",
  "parse-display",
+ "rustc-hash",
 ]
 
 [[package]]
@@ -321,6 +323,7 @@ version = "0.1.0"
 dependencies = [
  "aoclib",
  "parse-display",
+ "rustc-hash",
 ]
 
 [[package]]

@@ -8,6 +8,6 @@ name = "y2023d08"
 path = "src/08.rs"
 
 [dependencies]
-aoclib = "0.2.1"
+aoclib = { git = "https://github.com/BlockOG/aoclib" }
 parse-display = "0.8.2"
 rustc-hash = "1.1.0"

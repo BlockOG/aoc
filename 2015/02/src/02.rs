@@ -15,5 +15,5 @@ fn part_2(input: Input) -> impl ToString {
 }
 
 fn parse(input: Input) -> impl Iterator<Item = [i32; 3]> + '_ {
-    input.lines().map(|i| i.ints::<3, i32>())
+    input.lines().map(|i| i.ints())
 }

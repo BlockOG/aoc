@@ -8,4 +8,4 @@ name = "y2022d15"
 path = "src/15.rs"
 
 [dependencies]
-aoclib = "0.2.1"
+aoclib = { git = "https://github.com/BlockOG/aoclib" }

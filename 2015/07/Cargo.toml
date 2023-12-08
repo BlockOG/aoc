@@ -8,5 +8,5 @@ name = "y2015d07"
 path = "src/07.rs"
 
 [dependencies]
-aoclib = "0.2.1"
+aoclib = { git = "https://github.com/BlockOG/aoclib" }
 parse-display = "0.8.2"

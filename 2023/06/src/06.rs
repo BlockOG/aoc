@@ -1,54 +1,11 @@
-use std::slice;
+use aoc::Parse;
 
 aoc::parts!(1, 2);
 
-struct U64s<'a> {
-    s: slice::Iter<'a, u8>,
-}
-
-impl<'a> U64s<'a> {
-    fn new(s: &'a str) -> Self {
-        Self {
-            s: s.as_bytes().iter(),
-        }
-    }
-}
-
-impl<'a> Iterator for U64s<'a> {
-    type Item = u64;
-
-    fn next(&mut self) -> Option<Self::Item> {
-        let s = &mut self.s;
-        let mut res = 0;
-        while let Some(byte) = s.next() {
-            if byte.is_ascii_digit() {
-                res = (byte - b'0') as u64;
-                break;
-            }
-        }
-
-        if let Some(byte) = s.next() {
-            if !byte.is_ascii_digit() {
-                return Some(res);
-            }
-            res = res * 10 + (byte - b'0') as u64;
-        } else {
-            return None;
-        }
-
-        while let Some(byte) = s.next() {
-            if !byte.is_ascii_digit() {
-                break;
-            }
-            res = res * 10 + (byte - b'0') as u64;
-        }
-        Some(res)
-    }
-}
-
 fn part_1(input: aoc::Input) -> impl ToString {
-    U64s::new(input[0])
-        .zip(U64s::new(input[1]))
+    input[0]
+        .uints_iter::<u64>()
+        .zip(input[1].uints_iter::<u64>())
         .map(|(time, distance)| calc(time, distance))
         .product::<u64>()
 }

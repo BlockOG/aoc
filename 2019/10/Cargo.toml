@@ -1,0 +1,14 @@
+[package]
+name = "y2019d10"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "y2019d10"
+path = "src/10.rs"
+
+[dependencies]
+aoclib = { git = "https://github.com/BlockOG/aoclib" }
+gcd = "2.3.0"
+parse-display = "0.8.2"
+rustc-hash = "1.1.0"

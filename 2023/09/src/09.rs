@@ -5,29 +5,22 @@ aoc::parts!(1, 2);
 fn part_1(input: aoc::Input) -> impl ToString {
     let mut sum = 0;
     for i in input {
-        let mut lasts = vec![];
         let mut i: Vec<i32> = i.ints_iter().collect();
 
-        'outer: loop {
-            for &j in i.iter() {
-                if j != 0 {
-                    let mut k = vec![0; i.len() - 1];
-                    for (j, i) in i.windows(2).enumerate() {
-                        k[j] = i[1] - i[0];
+        'outer: for j in (1..=i.len()).rev() {
+            for &k in i.iter().take(j) {
+                if k != 0 {
+                    for j in 0..j - 1 {
+                        i[j] = i[j + 1] - i[j];
                     }
-                    lasts.push(*i.last().unwrap());
-                    i = k;
 
+                    sum += i[j - 1];
                     continue 'outer;
                 }
             }
 
             break;
         }
-
-        println!("{lasts:?}");
-
-        sum += lasts.into_iter().sum::<i32>();
     }
 
     sum
@@ -36,34 +29,27 @@ fn part_1(input: aoc::Input) -> impl ToString {
 fn part_2(input: aoc::Input) -> impl ToString {
     let mut sum = 0;
     for i in input {
-        let mut firsts = vec![];
         let mut i: Vec<i32> = i.ints_iter().collect();
 
-        'outer: loop {
-            for &j in i.iter() {
-                if j != 0 {
-                    let mut k = vec![0; i.len() - 1];
-                    for (j, i) in i.windows(2).enumerate() {
-                        k[j] = i[1] - i[0];
+        let mut neg = false;
+        'outer: for j in 0..i.len() {
+            for &k in i.iter().skip(j) {
+                if k != 0 {
+                    for j in (j + 1..i.len()).rev() {
+                        i[j] = i[j] - i[j - 1];
                     }
-                    firsts.push(*i.first().unwrap());
-                    i = k;
 
+                    if neg {
+                        sum -= i[j];
+                    } else {
+                        sum += i[j];
+                    }
+                    neg = !neg;
                     continue 'outer;
                 }
             }
 
             break;
-        }
-
-        let mut neg = false;
-        for i in firsts {
-            if neg {
-                sum -= i;
-            } else {
-                sum += i;
-            }
-            neg = !neg;
         }
     }
 

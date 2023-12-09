@@ -42,7 +42,7 @@ fn part_1(input: aoc::Input) -> impl ToString {
 }
 
 fn part_2(input: aoc::Input) -> impl ToString {
-    'outer: for line in input.lines() {
+    'outer: for line in input {
         let mut num = 0;
         let mut i = 0;
         let mut j = 0;

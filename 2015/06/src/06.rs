@@ -4,7 +4,7 @@ aoc::parts!(1, 2);
 
 fn part_1(input: Input) -> impl ToString {
     let mut lights = vec![vec![false; 1000]; 1000];
-    for i in input.lines() {
+    for i in input {
         let toggle = i.bytes().nth(1).unwrap() == b'o';
         let turn = i.bytes().nth(6).unwrap() == b'n';
         let [sx, sy, ex, ey] = i.uints::<4, usize>();
@@ -28,7 +28,7 @@ fn part_1(input: Input) -> impl ToString {
 
 fn part_2(input: Input) -> impl ToString {
     let mut lights = vec![vec![0; 1000]; 1000];
-    for i in input.lines() {
+    for i in input {
         let toggle = i.bytes().nth(1).unwrap() == b'o';
         let turn = i.bytes().nth(6).unwrap() == b'n';
         let [sx, sy, ex, ey] = i.uints::<4, usize>();

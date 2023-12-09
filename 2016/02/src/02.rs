@@ -4,7 +4,7 @@ fn part_1(input: aoc::Input) -> impl ToString {
     let grid = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
     let mut res = 0;
     let mut pos = (1, 1);
-    for i in input.lines() {
+    for i in input {
         for i in i.bytes() {
             if i == b'U' {
                 if 0 < pos.1 {
@@ -40,7 +40,7 @@ fn part_2(input: aoc::Input) -> impl ToString {
     ];
     let mut res = String::new();
     let mut pos = (0, 2);
-    for i in input.lines() {
+    for i in input {
         for i in i.bytes() {
             if i == b'U' {
                 if 0 < pos.1 && grid[pos.1 - 1][pos.0] > 0 {

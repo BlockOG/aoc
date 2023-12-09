@@ -23,7 +23,7 @@ fn dfs<'a>(mut node: &'a str, hm: &'a FxHashMap<&str, &str>) -> Vec<&'a str> {
 
 fn part_1(input: aoc::Input) -> impl ToString {
     let mut hm = FxHashMap::default();
-    for line in input.lines() {
+    for line in input {
         if !hm.contains_key(&line[0..3]) {
             hm.insert(&line[0..3], vec![]);
         }
@@ -35,7 +35,7 @@ fn part_1(input: aoc::Input) -> impl ToString {
 
 fn part_2(input: aoc::Input) -> impl ToString {
     let mut hm = FxHashMap::default();
-    for line in input.lines() {
+    for line in input {
         hm.insert(&line[4..7], &line[0..3]);
     }
 

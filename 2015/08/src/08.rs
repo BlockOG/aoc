@@ -2,7 +2,7 @@ aoc::parts!(1, 2);
 
 fn part_1(input: aoc::Input) -> impl ToString {
     let mut sum = 0;
-    for j in input.lines() {
+    for j in input {
         let mut i = 1;
         while i < j.len() - 1 {
             i += 1;
@@ -22,7 +22,7 @@ fn part_1(input: aoc::Input) -> impl ToString {
 
 fn part_2(input: aoc::Input) -> impl ToString {
     let mut sum = 0;
-    for j in input.lines() {
+    for j in input {
         let mut i = 0;
         sum += 2;
         while i < j.len() {

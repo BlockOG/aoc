@@ -87,7 +87,7 @@ impl Program {
 
 fn part_1(input: aoc::Input) -> impl ToString {
     let mut pr = FxHashMap::default();
-    for i in input.lines() {
+    for i in input {
         for v in lower_strings(i) {
             match pr.entry(v) {
                 Entry::Occupied(mut entry) => *entry.get_mut() += 1,

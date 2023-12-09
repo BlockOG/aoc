@@ -103,7 +103,7 @@ fn part_1(input: Input) -> impl ToString {
 
     let mut max_distance = i64::MIN;
 
-    for line in input.lines() {
+    for line in input {
         let [sx, sy, bx, by] = line.ints::<4, i64>();
         let sensor_pos = Pos::new(sx, sy);
         let beacon_pos = Pos::new(bx, by);
@@ -158,7 +158,7 @@ fn part_1(input: Input) -> impl ToString {
 fn part_2(input: Input) -> impl ToString {
     let mut sensors = vec![];
 
-    for line in input.lines() {
+    for line in input {
         let [sx, sy, bx, by] = line.ints::<4, i64>();
         let sensor_pos = Pos::new(sx, sy);
         let beacon_pos = Pos::new(bx, by);

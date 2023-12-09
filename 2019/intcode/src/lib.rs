@@ -1,6 +1,6 @@
 use aoc::{Input, Parse};
 
-#[derive(Clone)]
+#[derive(Clone, PartialEq, Eq)]
 pub enum State {
     Running,
     Halted,

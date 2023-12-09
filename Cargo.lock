@@ -437,6 +437,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "y2019d11"
+version = "0.1.0"
+dependencies = [
+ "aoclib",
+ "intcode",
+ "parse-display",
+ "rustc-hash",
+]
+
+[[package]]
 name = "y2022d01"
 version = "0.1.0"
 dependencies = [

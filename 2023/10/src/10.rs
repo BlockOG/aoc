@@ -23,7 +23,10 @@ enum Direction {
 }
 
 fn part_1(input: aoc::Input) -> impl ToString {
-    let mut grid = vec![vec![Tile::Ground; input[0].len()]; input.len()];
+    let n = input[0].len();
+    let m = input.len();
+
+    let mut grid = vec![Tile::Ground; n * m];
     let mut start = (0, 0);
     for (y, i) in input.lines().enumerate() {
         for (x, i) in i.bytes().enumerate() {
@@ -31,7 +34,7 @@ fn part_1(input: aoc::Input) -> impl ToString {
                 start = (x, y);
             }
 
-            grid[y][x] = match i {
+            grid[x + y * n] = match i {
                 b'S' => Tile::Start,
                 b'.' => Tile::Ground,
 
@@ -53,7 +56,7 @@ fn part_1(input: aoc::Input) -> impl ToString {
     let mut direction;
     if curr.1 > 0
         && matches!(
-            grid[curr.1 - 1][curr.0],
+            grid[curr.0 + (curr.1 - 1) * n],
             Tile::BottomLeft | Tile::Vertical | Tile::BottomRight
         )
     {
@@ -61,7 +64,7 @@ fn part_1(input: aoc::Input) -> impl ToString {
         direction = Direction::Up;
     } else if curr.1 < grid.len() - 1
         && matches!(
-            grid[curr.1 + 1][curr.0],
+            grid[curr.0 + (curr.1 + 1) * n],
             Tile::TopLeft | Tile::Vertical | Tile::TopRight
         )
     {
@@ -69,7 +72,7 @@ fn part_1(input: aoc::Input) -> impl ToString {
         direction = Direction::Down;
     } else if curr.0 > 0
         && matches!(
-            grid[curr.1][curr.0 - 1],
+            grid[curr.0 - 1 + curr.1 * n],
             Tile::BottomRight | Tile::Horizontal | Tile::TopRight
         )
     {
@@ -82,7 +85,7 @@ fn part_1(input: aoc::Input) -> impl ToString {
 
     let mut i = 1;
     while curr != start {
-        (curr, direction) = match (grid[curr.1][curr.0], direction) {
+        (curr, direction) = match (grid[curr.0 + curr.1 * n], direction) {
             (Tile::Vertical, Direction::Up) => ((curr.0, curr.1 - 1), Direction::Up),
             (Tile::Vertical, Direction::Down) => ((curr.0, curr.1 + 1), Direction::Down),
             (Tile::Horizontal, Direction::Left) => ((curr.0 - 1, curr.1), Direction::Left),
@@ -108,7 +111,10 @@ fn part_1(input: aoc::Input) -> impl ToString {
 }
 
 fn part_2(input: aoc::Input) -> impl ToString {
-    let mut grid = vec![vec![Tile::Ground; input[0].len()]; input.len()];
+    let n = input[0].len();
+    let m = input.len();
+
+    let mut grid = vec![Tile::Ground; n * m];
     let mut start = (0, 0);
     for (y, i) in input.lines().enumerate() {
         for (x, i) in i.bytes().enumerate() {
@@ -116,7 +122,7 @@ fn part_2(input: aoc::Input) -> impl ToString {
                 start = (x, y);
             }
 
-            grid[y][x] = match i {
+            grid[x + y * n] = match i {
                 b'S' => Tile::Start,
                 b'.' => Tile::Ground,
 
@@ -138,7 +144,7 @@ fn part_2(input: aoc::Input) -> impl ToString {
     let mut direction;
     if curr.1 > 0
         && matches!(
-            grid[curr.1 - 1][curr.0],
+            grid[curr.0 + (curr.1 - 1) * n],
             Tile::BottomLeft | Tile::Vertical | Tile::BottomRight
         )
     {
@@ -146,7 +152,7 @@ fn part_2(input: aoc::Input) -> impl ToString {
         direction = Direction::Up;
     } else if curr.1 < grid.len() - 1
         && matches!(
-            grid[curr.1 + 1][curr.0],
+            grid[curr.0 + (curr.1 + 1) * n],
             Tile::TopLeft | Tile::Vertical | Tile::TopRight
         )
     {
@@ -154,7 +160,7 @@ fn part_2(input: aoc::Input) -> impl ToString {
         direction = Direction::Down;
     } else if curr.0 > 0
         && matches!(
-            grid[curr.1][curr.0 - 1],
+            grid[curr.0 - 1 + curr.1 * n],
             Tile::BottomRight | Tile::Horizontal | Tile::TopRight
         )
     {
@@ -165,11 +171,11 @@ fn part_2(input: aoc::Input) -> impl ToString {
         direction = Direction::Right;
     }
 
-    let mut in_loop = vec![vec![false; grid[0].len()]; grid.len()];
-    in_loop[start.1][start.0] = true;
+    let mut in_loop = vec![false; n * m];
+    in_loop[start.0 + start.1 * n] = true;
     while curr != start {
-        in_loop[curr.1][curr.0] = true;
-        (curr, direction) = match (grid[curr.1][curr.0], direction) {
+        in_loop[curr.0 + curr.1 * n] = true;
+        (curr, direction) = match (grid[curr.0 + curr.1 * n], direction) {
             (Tile::Vertical, Direction::Up) => ((curr.0, curr.1 - 1), Direction::Up),
             (Tile::Vertical, Direction::Down) => ((curr.0, curr.1 + 1), Direction::Down),
             (Tile::Horizontal, Direction::Left) => ((curr.0 - 1, curr.1), Direction::Left),
@@ -190,11 +196,14 @@ fn part_2(input: aoc::Input) -> impl ToString {
     }
 
     let mut res = 0;
-    for y in 0..grid.len() {
+    for y in 0..m {
         let mut evenodd = 0;
-        for x in 0..grid[y].len() {
-            if in_loop[y][x] {
-                if matches!(grid[y][x], Tile::TopLeft | Tile::Vertical | Tile::TopRight) {
+        for x in 0..n {
+            if in_loop[x + y * n] {
+                if matches!(
+                    grid[x + y * n],
+                    Tile::TopLeft | Tile::Vertical | Tile::TopRight
+                ) {
                     evenodd += 1;
                 }
             } else {

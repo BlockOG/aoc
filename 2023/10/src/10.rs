@@ -301,16 +301,14 @@ fn part_2(input: aoc::Input) -> impl ToString {
     }
 
     let mut res = 0;
-    for y in 0..m {
-        let mut evenodd = 0;
-        for x in 0..n {
-            if in_loop[x + y * n] {
-                if grid[x + y * n] & UP != 0 {
-                    evenodd += 1;
-                }
-            } else {
-                res += evenodd & 1;
+    let mut evenodd = 0;
+    for i in 0..grid.len() {
+        if in_loop[i] {
+            if grid[i] & UP != 0 {
+                evenodd += 1;
             }
+        } else {
+            res += evenodd & 1;
         }
     }
 

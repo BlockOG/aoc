@@ -447,6 +447,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "y2019d12"
+version = "0.1.0"
+dependencies = [
+ "aoclib",
+ "gcd",
+ "parse-display",
+ "rustc-hash",
+]
+
+[[package]]
 name = "y2022d01"
 version = "0.1.0"
 dependencies = [
@@ -547,6 +557,15 @@ dependencies = [
 
 [[package]]
 name = "y2023d11"
+version = "0.1.0"
+dependencies = [
+ "aoclib",
+ "parse-display",
+ "rustc-hash",
+]
+
+[[package]]
+name = "y2023d12"
 version = "0.1.0"
 dependencies = [
  "aoclib",

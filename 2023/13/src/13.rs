@@ -1,92 +1,71 @@
 aoc::parts!(1, 2);
 
 fn part_1(input: aoc::Input) -> impl ToString {
-    let input = input.as_lines();
-
-    let mut sum = 0;
-    for grid in input.split(|i| i.is_empty()) {
-        let l = calc(
-            &grid
-                .into_iter()
-                .map(|i| i.bytes().map(|i| i == b'#').collect())
-                .collect(),
-            0,
-            0,
-            false,
-        );
-        sum += l.0 * 100 + l.1;
-    }
-
-    sum
+    calc_n(input, calc_1)
 }
 
 fn part_2(input: aoc::Input) -> impl ToString {
-    let input = input.as_lines();
-
-    let mut sum = 0;
-    'outer: for grid in input.split(|i| i.is_empty()) {
-        let mut grid: Vec<Vec<bool>> = grid
-            .into_iter()
-            .map(|i| i.bytes().map(|i| i == b'#').collect())
-            .collect();
-
-        let z = calc(&grid, 0, 0, false);
-
-        for j in 0..grid.len() {
-            for k in 0..grid[j].len() {
-                grid[j][k] = !grid[j][k];
-
-                let l = calc(&grid, z.0, z.1, true);
-                if l.0 != 0 || l.1 != 0 {
-                    sum += l.0 * 100 + l.1;
-                    continue 'outer;
-                }
-
-                grid[j][k] = !grid[j][k];
-            }
-        }
-    }
-
-    sum
+    calc_n(input, calc_2)
 }
 
-fn calc(grid: &Vec<Vec<bool>>, horiz: usize, vert: usize, two: bool) -> (usize, usize) {
-    let mut first = 0;
-    let mut second = 0;
+fn calc_n(input: aoc::Input, calc: fn(Vec<u32>) -> Option<usize>) -> usize {
+    input
+        .as_lines()
+        .split(|i| i.is_empty())
+        .map(parse)
+        .map(|(rows, cols)| calc(rows).map(|i| i * 100).or_else(|| calc(cols)).unwrap())
+        .sum()
+}
 
-    'outer: for i in 0..grid[0].len() - 1 {
-        for (j, i) in (0..=i).rev().enumerate() {
-            if i + j * 2 + 1 >= grid[0].len() {
-                break;
-            }
-            for k in 0..grid.len() {
-                if grid[k][i] != grid[k][i + j * 2 + 1] {
-                    continue 'outer;
-                }
+fn parse(input: &[&str]) -> (Vec<u32>, Vec<u32>) {
+    let mut rows = Vec::with_capacity(input.len());
+    let mut cols = vec![0; input[0].len()];
+
+    for line in input.iter() {
+        let mut row = 0;
+        for (x, byte) in line.bytes().enumerate() {
+            row *= 2;
+            cols[x] *= 2;
+            if byte == b'#' {
+                row += 1;
+                cols[x] += 1;
             }
         }
 
-        if !two || i + 1 != vert {
-            second = i + 1;
-            break;
-        }
+        rows.push(row);
     }
 
-    'outer: for i in 0..grid.len() - 1 {
-        for (j, i) in (0..=i).rev().enumerate() {
-            if i + j * 2 + 1 >= grid.len() {
-                break;
-            }
-            if grid[i] != grid[i + j * 2 + 1] {
+    (rows, cols)
+}
+
+fn calc_1(lines: Vec<u32>) -> Option<usize> {
+    'outer: for i in 1..lines.len() {
+        for j in 0..i.min(lines.len() - i) {
+            if lines[i - j - 1] != lines[i + j] {
                 continue 'outer;
             }
         }
 
-        if !two || i + 1 != horiz {
-            first = i + 1;
-            break;
-        }
+        return Some(i);
     }
 
-    (first, second)
+    None
+}
+
+fn calc_2(lines: Vec<u32>) -> Option<usize> {
+    'outer: for i in 1..lines.len() {
+        let mut one = false;
+        for j in 0..i.min(lines.len() - i) {
+            if (lines[i - j - 1] ^ lines[i + j]).count_ones() == 1 && !one {
+                one = true;
+            } else if lines[i - j - 1] != lines[i + j] {
+                continue 'outer;
+            }
+        }
+
+        if one {
+            return Some(i);
+        }
+    }
+    None
 }

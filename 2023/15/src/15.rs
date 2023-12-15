@@ -1,3 +1,8 @@
+use std::collections::hash_map::Entry;
+
+use aoc::Parse;
+use rustc_hash::FxHashMap;
+
 aoc::parts!(1, 2);
 
 fn part_1(input: aoc::Input) -> impl ToString {
@@ -17,45 +22,46 @@ fn part_1(input: aoc::Input) -> impl ToString {
 }
 
 fn part_2(input: aoc::Input) -> impl ToString {
-    let mut res: Vec<Vec<(String, u8)>> = vec![vec![]; 256];
-    let mut curr = 0;
-    let mut cur = String::new();
-    'outer: for i in input.raw().bytes() {
-        match i {
-            b',' => {
-                curr = 0;
-                cur.clear();
+    // let mut res = [[0; 64]; 256];
+    let mut res = [[0; 14]; 256];
+    let mut ends = [0; 256];
+    let mut hm = FxHashMap::default();
+
+    for i in input.raw().split(",") {
+        let cur = if i.idx(i.len() - 1) == b'-' {
+            &i[0..i.len() - 1]
+        } else {
+            &i[0..i.len() - 2]
+        };
+
+        let curr = cur.bytes().fold(0, |acc, i| (acc + i) * 17);
+
+        if i.idx(i.len() - 1) == b'-' {
+            if let Some(index) = hm.remove(&cur) {
+                res[curr as usize][index] = 0;
             }
-            b'-' => {
-                for j in res[curr as usize].iter().cloned().enumerate() {
-                    if j.1 .0 == cur {
-                        res[curr as usize].remove(j.0);
-                        break;
-                    }
+        } else {
+            match hm.entry(cur) {
+                Entry::Occupied(entry) => {
+                    res[curr as usize][*entry.get()] = i.idx(i.len() - 1) - b'0';
                 }
-            }
-            b'=' => {}
-            b'0' | b'1' | b'2' | b'3' | b'4' | b'5' | b'6' | b'7' | b'8' | b'9' => {
-                for j in res[curr as usize].iter().cloned().enumerate() {
-                    if j.1 .0 == cur {
-                        res[curr as usize][j.0] = (cur.clone(), i - b'0');
-                        continue 'outer;
-                    }
+                Entry::Vacant(entry) => {
+                    entry.insert(ends[curr as usize]);
+                    res[curr as usize][ends[curr as usize]] = i.idx(i.len() - 1) - b'0';
+                    ends[curr as usize] += 1;
                 }
-                res[curr as usize].push((cur.clone(), i - b'0'));
-            }
-            _ => {
-                cur.push(i as char);
-                curr += i;
-                curr *= 17;
             }
         }
     }
 
     let mut sum = 0;
     for (j, i) in res.into_iter().enumerate() {
-        for i in i.into_iter().enumerate() {
-            sum += i.1 .1 as usize * (i.0 + 1) * (j + 1);
+        let mut curr = 1;
+        for i in i.into_iter() {
+            if i != 0 {
+                sum += i as usize * curr * (j + 1);
+                curr += 1;
+            }
         }
     }
     sum

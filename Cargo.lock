@@ -14,7 +14,7 @@ dependencies = [
 [[package]]
 name = "aoclib"
 version = "0.2.1"
-source = "git+https://github.com/BlockOG/aoclib#85956a29fd0c973f991137f73ec9f8bc9ecf719d"
+source = "git+https://github.com/BlockOG/aoclib#eaf1b44064032f2ca3ec195ec15fe6f64086871b"
 
 [[package]]
 name = "either"

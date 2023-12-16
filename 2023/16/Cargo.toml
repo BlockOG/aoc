@@ -1,0 +1,13 @@
+[package]
+name = "y2023d16"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "y2023d16"
+path = "src/16.rs"
+
+[dependencies]
+aoclib = { git = "https://github.com/BlockOG/aoclib" }
+parse-display = "0.8.2"
+rustc-hash = "1.1.0"

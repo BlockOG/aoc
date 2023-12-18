@@ -1,3 +1,5 @@
+use std::hint::unreachable_unchecked;
+
 use aoc::Parse;
 
 aoc::parts!(1, 2);
@@ -17,9 +19,9 @@ fn part_1(input: aoc::Input) -> impl ToString {
                 b'R' => Direction::Right,
                 b'D' => Direction::Down,
                 b'L' => Direction::Left,
-                _ => unreachable!(),
+                _ => unsafe { unreachable_unchecked() },
             },
-            i.ints::<1, isize>()[0],
+            i.uints::<1, isize>()[0],
         )
     }))
 }
@@ -34,7 +36,7 @@ fn part_2(input: aoc::Input) -> impl ToString {
                 b'1' => Direction::Down,
                 b'2' => Direction::Left,
                 b'3' => Direction::Up,
-                _ => unreachable!(),
+                _ => unsafe { unreachable_unchecked() },
             },
             from_hexdigit(i.idx(pos + 1)) * 16 * 16 * 16 * 16
                 + from_hexdigit(i.idx(pos + 2)) * 16 * 16 * 16
@@ -70,6 +72,6 @@ fn from_hexdigit(i: u8) -> isize {
     match i {
         b'0'..=b'9' => (i - b'0') as isize,
         b'a'..=b'f' => (i - b'a' + 10) as isize,
-        _ => unreachable!(),
+        _ => unsafe { unreachable_unchecked() },
     }
 }

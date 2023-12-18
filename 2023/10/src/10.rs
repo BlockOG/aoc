@@ -273,14 +273,14 @@ fn part_1(input: aoc::Input) -> impl ToString {
     let (grid, start, mut curr, mut direction) = parse(n, m, input);
     curr = curr.wrapping_add_signed(direction_to_offset[direction as usize]);
 
-    let mut i = 1;
+    let mut len = 1;
     while curr != start {
         direction = grid[curr] ^ swap_odd_even_u4(direction);
         curr = curr.wrapping_add_signed(direction_to_offset[direction as usize]);
-        i += 1;
+        len += 1;
     }
 
-    i / 2
+    len / 2
 }
 
 fn part_2(input: aoc::Input) -> impl ToString {
@@ -292,27 +292,21 @@ fn part_2(input: aoc::Input) -> impl ToString {
     let (grid, start, mut curr, mut direction) = parse(n, m, input);
     curr = curr.wrapping_add_signed(direction_to_offset[direction as usize]);
 
-    let mut in_loop = vec![false; n * m];
-    in_loop[start] = true;
+    let mut shoelace = (0, 0);
+    let mut last = (start % n, start / n);
+    let mut len = 1;
+
     while curr != start {
-        in_loop[curr] = true;
         direction = grid[curr] ^ swap_odd_even_u4(direction);
         curr = curr.wrapping_add_signed(direction_to_offset[direction as usize]);
+        len += 1;
+
+        shoelace.0 += last.0 * (curr / n);
+        shoelace.1 += last.1 * (curr % n);
+        last = (curr % n, curr / n);
     }
 
-    let mut res = 0;
-    let mut evenodd = 0;
-    for i in 0..grid.len() {
-        if in_loop[i] {
-            if grid[i] & UP != 0 {
-                evenodd += 1;
-            }
-        } else {
-            res += evenodd & 1;
-        }
-    }
-
-    res
+    shoelace.0.abs_diff(shoelace.1) / 2 - len / 2 + 1
 }
 
 fn parse(n: usize, m: usize, input: aoc::Input) -> (Vec<u8>, usize, usize, u8) {

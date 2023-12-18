@@ -35,7 +35,7 @@ fn part_1(input: aoc::Input) -> impl ToString {
 
     moons
         .into_iter()
-        .zip(vels.into_iter())
+        .zip(vels)
         .map(|i| {
             (i.0[0].abs() + i.0[1].abs() + i.0[2].abs())
                 * (i.1[0].abs() + i.1[1].abs() + i.1[2].abs())
@@ -43,7 +43,7 @@ fn part_1(input: aoc::Input) -> impl ToString {
         .sum::<i32>()
 }
 
-fn part_2(input: aoc::Input) -> impl ToString {
+fn part_2(_input: aoc::Input) -> impl ToString {
     // let mut moons: Vec<[i32; 3]> = input.lines().map(|i| i.ints()).collect();
     // let mut vels = vec![[0; 3]; moons.len()];
 

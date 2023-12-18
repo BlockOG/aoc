@@ -168,28 +168,25 @@ fn part_2(input: Input) -> impl ToString {
     let mut last_line = None;
     for (i, sensor1) in sensors.iter().enumerate() {
         for sensor2 in sensors[i + 1..].iter() {
-            let empty_space = sensor1.pos.distance(&sensor2.pos) as i64
-                - (sensor1.beacon_distance + sensor2.beacon_distance) as i64;
+            let empty_space = sensor1.pos.distance(&sensor2.pos)
+                - (sensor1.beacon_distance + sensor2.beacon_distance);
             if empty_space == 2 {
                 let line = Line::from(
                     &Pos::new(
                         sensor1.pos.x,
                         if sensor1.pos.y > sensor2.pos.y {
-                            sensor1.pos.y - sensor1.beacon_distance as i64 - 1
+                            sensor1.pos.y - sensor1.beacon_distance - 1
                         } else {
-                            sensor1.pos.y + sensor1.beacon_distance as i64 + 1
+                            sensor1.pos.y + sensor1.beacon_distance + 1
                         },
                     ),
                     (sensor1.pos.x < sensor2.pos.x) ^ (sensor1.pos.y < sensor2.pos.y),
                 );
 
-                if last_line.is_none() {
-                    last_line = Some(line);
+                if let Some(last_line) = last_line {
+                    return line.intersects(&last_line).unwrap().tuning_frequency();
                 } else {
-                    return line
-                        .intersects(&last_line.unwrap())
-                        .unwrap()
-                        .tuning_frequency();
+                    last_line = Some(line);
                 }
             }
         }

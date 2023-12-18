@@ -9,7 +9,7 @@ fn part_1(input: aoc::Input) -> impl ToString {
         .filter(|(_, i)| {
             let mut n = 0;
 
-            for i in i.split(" ").skip(2) {
+            for i in i.split(' ').skip(2) {
                 if n == 0 {
                     n = i.parse_uw::<i32>();
                 } else {
@@ -21,10 +21,8 @@ fn part_1(input: aoc::Input) -> impl ToString {
                         if n > 12 {
                             return false;
                         }
-                    } else {
-                        if n > 13 {
-                            return false;
-                        }
+                    } else if n > 13 {
+                        return false;
                     }
                     n = 0;
                 }
@@ -45,7 +43,7 @@ fn part_2(input: aoc::Input) -> impl ToString {
 
             let mut n = 0;
 
-            for i in i.split(" ").skip(2) {
+            for i in i.split(' ').skip(2) {
                 if n == 0 {
                     n = i.parse_uw::<i32>();
                 } else {

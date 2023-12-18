@@ -8,7 +8,7 @@ fn part_1(input: aoc::Input) -> impl ToString {
         .map(|i| {
             (
                 i.iter().filter(|i| i == &&b'1').count() * i.iter().filter(|i| i == &&b'2').count(),
-                i.into_iter().filter(|i| i == &&b'0').count(),
+                i.iter().filter(|i| i == &&b'0').count(),
             )
         })
         .min_by_key(|i| i.1)

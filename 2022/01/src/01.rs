@@ -13,7 +13,7 @@ fn part_2(input: Input) -> impl ToString {
     a + b + c
 }
 
-fn parse<'a>(input: Input<'a>) -> impl Iterator<Item = u32> + 'a {
+fn parse(input: Input<'_>) -> impl Iterator<Item = u32> + '_ {
     input
         .as_lines()
         .split(|line| line.is_empty())

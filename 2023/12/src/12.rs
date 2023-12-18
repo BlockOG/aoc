@@ -19,7 +19,7 @@ fn part_1(input: aoc::Input) -> impl ToString {
     input
         .lines()
         .map(|i| {
-            let [springs, continuous_groups] = i.split(" ").collect_n();
+            let [springs, continuous_groups] = i.split(' ').collect_n();
 
             calc(
                 springs.bytes().map(|i| CHAR_TO_TYPE[i as usize]),
@@ -33,7 +33,7 @@ fn part_2(input: aoc::Input) -> impl ToString {
     input
         .lines()
         .map(|i| {
-            let [springs, continuous_groups] = i.split(" ").collect_n();
+            let [springs, continuous_groups] = i.split(' ').collect_n();
 
             calc(
                 springs

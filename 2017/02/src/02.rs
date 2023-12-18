@@ -8,7 +8,7 @@ fn part_1(input: aoc::Input) -> impl ToString {
         .lines()
         .map(|line| {
             let (min, max) = line
-                .split("\t")
+                .split('\t')
                 .map(|i| i.parse_uw::<i32>())
                 .fold((i32::MAX, i32::MIN), |acc, i| (acc.0.min(i), acc.1.max(i)));
             max - min
@@ -21,7 +21,7 @@ fn part_2(input: aoc::Input) -> impl ToString {
         .lines()
         .map(|line| {
             for i in line
-                .split("\t")
+                .split('\t')
                 .map(|i| i.parse_uw::<i32>())
                 .combinations(2)
             {

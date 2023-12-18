@@ -211,8 +211,8 @@ fn part_2(input: aoc::Input) -> impl ToString {
         index: 0,
     });
     to_see.push(SmallestCostHolder {
-        estimated_cost: grid[n * 1] + grid[n * 2] + grid[n * 3] + grid[n * 4],
-        cost: grid[n * 1] + grid[n * 2] + grid[n * 3] + grid[n * 4],
+        estimated_cost: grid[n] + grid[n * 2] + grid[n * 3] + grid[n * 4],
+        cost: grid[n] + grid[n * 2] + grid[n * 3] + grid[n * 4],
         index: 1,
     });
 
@@ -225,7 +225,7 @@ fn part_2(input: aoc::Input) -> impl ToString {
         ((0, 4), 4, Direction::Down),
         (
             usize::MAX,
-            grid[n * 1] + grid[n * 2] + grid[n * 3] + grid[n * 4],
+            grid[n] + grid[n * 2] + grid[n * 3] + grid[n * 4],
         ),
     );
 
@@ -243,25 +243,25 @@ fn part_2(input: aoc::Input) -> impl ToString {
                 if consecutive == 4 {
                     match direction {
                         Direction::Up => {
-                            grid[(pos.1 + 0) * n + pos.0]
+                            grid[pos.1 * n + pos.0]
                                 + grid[(pos.1 + 1) * n + pos.0]
                                 + grid[(pos.1 + 2) * n + pos.0]
                                 + grid[(pos.1 + 3) * n + pos.0]
                         }
                         Direction::Left => {
-                            grid[pos.1 * n + pos.0 + 0]
+                            grid[pos.1 * n + pos.0]
                                 + grid[pos.1 * n + pos.0 + 1]
                                 + grid[pos.1 * n + pos.0 + 2]
                                 + grid[pos.1 * n + pos.0 + 3]
                         }
                         Direction::Down => {
-                            grid[(pos.1 - 0) * n + pos.0]
+                            grid[pos.1 * n + pos.0]
                                 + grid[(pos.1 - 1) * n + pos.0]
                                 + grid[(pos.1 - 2) * n + pos.0]
                                 + grid[(pos.1 - 3) * n + pos.0]
                         }
                         Direction::Right => {
-                            grid[pos.1 * n + pos.0 - 0]
+                            grid[pos.1 * n + pos.0]
                                 + grid[pos.1 * n + pos.0 - 1]
                                 + grid[pos.1 * n + pos.0 - 2]
                                 + grid[pos.1 * n + pos.0 - 3]

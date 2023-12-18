@@ -29,11 +29,11 @@ impl Instruction {
 
 fn part_1(input: aoc::Input) -> impl ToString {
     let a = input[0]
-        .split(",")
+        .split(',')
         .map(|i| i.parse_uw())
         .collect::<Vec<Instruction>>();
     let b = input[1]
-        .split(",")
+        .split(',')
         .map(|i| i.parse_uw())
         .collect::<Vec<Instruction>>();
 
@@ -75,11 +75,11 @@ fn part_1(input: aoc::Input) -> impl ToString {
 
 fn part_2(input: aoc::Input) -> impl ToString {
     let a = input[0]
-        .split(",")
+        .split(',')
         .map(|i| i.parse_uw())
         .collect::<Vec<Instruction>>();
     let b = input[1]
-        .split(",")
+        .split(',')
         .map(|i| i.parse_uw())
         .collect::<Vec<Instruction>>();
 
@@ -95,9 +95,7 @@ fn part_2(input: aoc::Input) -> impl ToString {
                 Instruction::Left(_) => pos.0 -= 1,
                 Instruction::Up(_) => pos.1 -= 1,
             }
-            if !poss.contains_key(&pos) {
-                poss.insert(pos, step);
-            }
+            poss.entry(pos).or_insert(step);
         }
     }
 

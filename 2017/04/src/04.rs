@@ -7,7 +7,7 @@ fn part_1(input: aoc::Input) -> impl ToString {
         .lines()
         .filter(|s| {
             let mut words = HashSet::new();
-            for i in s.split(" ") {
+            for i in s.split(' ') {
                 if words.contains(i) {
                     return false;
                 } else {
@@ -24,7 +24,7 @@ fn part_2(input: aoc::Input) -> impl ToString {
         .lines()
         .filter(|s| {
             let mut words = HashSet::new();
-            for i in s.split(" ") {
+            for i in s.split(' ') {
                 let mut j = [0; 26];
                 for i in i.bytes() {
                     j[(i - b'a') as usize] += 1;

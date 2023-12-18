@@ -7,12 +7,12 @@ fn part_1(input: aoc::Input) -> impl ToString {
         while i < j.len() - 1 {
             i += 1;
             sum += 1;
-            match j.bytes().nth(i - 1) {
-                Some(b'\\') => match j.bytes().nth(i) {
-                    Some(b'x') => i += 3,
-                    _ => i += 1,
-                },
-                _ => {}
+            if matches!(j.as_bytes().get(i - 1), Some(b'\\')) {
+                i += if matches!(j.as_bytes().get(i), Some(b'x')) {
+                    3
+                } else {
+                    1
+                };
             }
         }
     }
@@ -21,14 +21,12 @@ fn part_1(input: aoc::Input) -> impl ToString {
 }
 
 fn part_2(input: aoc::Input) -> impl ToString {
-    let mut sum = 0;
+    let mut sum = input.len() * 2;
     for j in input {
         let mut i = 0;
-        sum += 2;
         while i < j.len() {
-            match j.bytes().nth(i) {
-                Some(b'\\') | Some(b'"') => sum += 1,
-                _ => {}
+            if matches!(j.as_bytes().get(i), Some(b'\\') | Some(b'"')) {
+                sum += 1;
             }
             i += 1;
             sum += 1;

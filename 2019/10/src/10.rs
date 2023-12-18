@@ -28,7 +28,7 @@ fn part_1(input: aoc::Input) -> impl ToString {
 
                     let x1 = x1 as isize - x as isize;
                     let y1 = y1 as isize - y as isize;
-                    let g = (x1.abs() as usize).gcd(y1.abs() as usize) as isize;
+                    let g = x1.unsigned_abs().gcd(y1.unsigned_abs()) as isize;
                     hs.insert((x1 / g, y1 / g));
                 }
             }
@@ -80,7 +80,7 @@ fn part_2(input: aoc::Input) -> impl ToString {
 
                     let x1 = x1 as isize - x as isize;
                     let y1 = y1 as isize - y as isize;
-                    let g = (x1.abs() as usize).gcd(y1.abs() as usize) as isize;
+                    let g = x1.unsigned_abs().gcd(y1.unsigned_abs()) as isize;
                     hs.insert((x1 / g, y1 / g));
                 }
             }

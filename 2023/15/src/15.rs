@@ -27,7 +27,7 @@ fn part_2(input: aoc::Input) -> impl ToString {
     let mut ends = [0; 256];
     let mut hm = FxHashMap::default();
 
-    for i in input.raw().split(",") {
+    for i in input.raw().split(',') {
         let cur = if i.idx(i.len() - 1) == b'-' {
             &i[0..i.len() - 1]
         } else {

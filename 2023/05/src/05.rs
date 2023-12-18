@@ -9,7 +9,7 @@ fn part_1(input: aoc::Input) -> impl ToString {
     let mut a = vec![vec![]];
     let mut i = 0;
     for line in input.lines().skip(2) {
-        if line == "" {
+        if line.is_empty() {
             a[i].sort_by_key(|i: &(u32, u32, u32)| i.1);
             i = a.len();
             a.push(vec![]);
@@ -57,7 +57,7 @@ fn part_2(input: aoc::Input) -> impl ToString {
     let mut a = vec![vec![]];
     let mut i = 0;
     for line in input.lines().skip(2) {
-        if line == "" {
+        if line.is_empty() {
             i = a.len();
             a.push(vec![]);
         } else if line.bytes().last().unwrap() != b':' {

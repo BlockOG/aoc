@@ -36,7 +36,7 @@ fn part_2(input: aoc::Input) -> impl ToString {
             for &k in i.iter().skip(j) {
                 if k != 0 {
                     for j in (j + 1..i.len()).rev() {
-                        i[j] = i[j] - i[j - 1];
+                        i[j] -= i[j - 1];
                     }
 
                     if neg {

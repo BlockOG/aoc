@@ -136,10 +136,8 @@ fn lower_strings(string: &str) -> Vec<&str> {
             if start.is_none() {
                 start = Some(i);
             }
-        } else {
-            if let Some(start) = start.take() {
-                res.push(&string[start..i]);
-            }
+        } else if let Some(start) = start.take() {
+            res.push(&string[start..i]);
         }
     }
     if let Some(start) = start.take() {

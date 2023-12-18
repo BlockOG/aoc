@@ -5,7 +5,7 @@ use aoc::Parse;
 aoc::parts!(1, 2);
 
 fn part_1(input: aoc::Input) -> impl ToString {
-    let mut input: Vec<u32> = input.raw().split("\t").map(|i| i.parse_uw()).collect();
+    let mut input: Vec<u32> = input.raw().split('\t').map(|i| i.parse_uw()).collect();
     let mut hs = HashSet::new();
     hs.insert(
         input
@@ -39,7 +39,7 @@ fn part_1(input: aoc::Input) -> impl ToString {
 }
 
 fn part_2(input: aoc::Input) -> impl ToString {
-    let mut input: Vec<u32> = input.raw().split("\t").map(|i| i.parse_uw()).collect();
+    let mut input: Vec<u32> = input.raw().split('\t').map(|i| i.parse_uw()).collect();
     let mut hs = HashSet::new();
     hs.insert(
         input
@@ -67,12 +67,10 @@ fn part_2(input: aoc::Input) -> impl ToString {
             if input == seen.1 {
                 return i - seen.0;
             }
+        } else if hs.contains(&input) {
+            seen = Some((i, input));
         } else {
-            if hs.contains(&input) {
-                seen = Some((i, input));
-            } else {
-                hs.insert(input);
-            }
+            hs.insert(input);
         }
     }
 

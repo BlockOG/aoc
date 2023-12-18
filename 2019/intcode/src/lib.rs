@@ -135,7 +135,7 @@ impl Intcode {
 
     fn get_direct(&self, index: usize) -> isize {
         if index < self.memory.len() {
-            self.memory[index as usize]
+            self.memory[index]
         } else {
             0
         }

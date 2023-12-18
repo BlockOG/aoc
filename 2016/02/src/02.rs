@@ -18,10 +18,8 @@ fn part_1(input: aoc::Input) -> impl ToString {
                 if 0 < pos.0 {
                     pos.0 -= 1;
                 }
-            } else {
-                if pos.0 < 3 - 1 {
-                    pos.0 += 1;
-                }
+            } else if pos.0 < 3 - 1 {
+                pos.0 += 1;
             }
         }
         res = res * 10 + grid[pos.1][pos.0];
@@ -54,10 +52,8 @@ fn part_2(input: aoc::Input) -> impl ToString {
                 if 0 < pos.0 && grid[pos.1][pos.0 - 1] > 0 {
                     pos.0 -= 1;
                 }
-            } else {
-                if pos.0 < 5 - 1 && grid[pos.1][pos.0 + 1] > 0 {
-                    pos.0 += 1;
-                }
+            } else if pos.0 < 5 - 1 && grid[pos.1][pos.0 + 1] > 0 {
+                pos.0 += 1;
             }
         }
         res.push(grid[pos.1][pos.0] as char);

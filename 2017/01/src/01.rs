@@ -13,14 +13,11 @@ fn part_2(input: Input) -> impl ToString {
 fn solve(input: Input, ahead: usize) -> i32 {
     let mut sum = 0;
     for i in 0..input.raw().len() {
-        if input.raw().bytes().nth(i).unwrap()
+        if input.raw().as_bytes()[i]
             == input
-                .raw()
-                .bytes()
-                .nth((i + ahead) % input.raw().len())
-                .unwrap()
+                .raw().as_bytes()[(i + ahead) % input.raw().len()]
         {
-            sum += (input.raw().bytes().nth(i).unwrap() - b'0') as i32;
+            sum += (input.raw().as_bytes()[i] - b'0') as i32;
         }
     }
 

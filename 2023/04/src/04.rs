@@ -9,22 +9,20 @@ fn part_1(input: aoc::Input) -> impl ToString {
             let mut res = 0;
             let mut a = [false; 100];
             let mut list = true;
-            for i in i.split(" ").skip(2) {
-                if i.chars().last() == Some(':') {
+            for i in i.split(' ').skip(2) {
+                if i.ends_with(':') {
                     continue;
                 }
                 if i == "|" {
                     list = false;
-                } else if i.len() > 0 {
+                } else if !i.is_empty() {
                     if list {
                         a[i.parse_uw::<usize>()] = true;
-                    } else {
-                        if a[i.parse_uw::<usize>()] {
-                            if res == 0 {
-                                res = 1;
-                            } else {
-                                res *= 2;
-                            }
+                    } else if a[i.parse_uw::<usize>()] {
+                        if res == 0 {
+                            res = 1;
+                        } else {
+                            res *= 2;
                         }
                     }
                 }
@@ -42,22 +40,18 @@ fn part_2(input: aoc::Input) -> impl ToString {
         let mut k = i + 1;
         let mut a = [false; 100];
         let mut list = true;
-        for j in input[i].split(" ").skip(2) {
-            if j.chars().last() == Some(':') {
+        for j in input[i].split(' ').skip(2) {
+            if j.ends_with(':') {
                 continue;
             }
             if j == "|" {
                 list = false;
-            } else if j.len() > 0 {
+            } else if !j.is_empty() {
                 if list {
                     a[j.parse_uw::<usize>()] = true;
-                } else {
-                    if a[j.parse_uw::<usize>()] {
-                        if k < cards.len() {
-                            cards[k] += cards[i];
-                            k += 1;
-                        }
-                    }
+                } else if a[j.parse_uw::<usize>()] && k < cards.len() {
+                    cards[k] += cards[i];
+                    k += 1;
                 }
             }
         }

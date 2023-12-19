@@ -1,24 +1,18 @@
-use std::{
-    cmp::Ordering, collections::hash_map::Entry, hash::BuildHasherDefault,
-    hint::unreachable_unchecked,
-};
+use std::{cmp::Ordering, collections::hash_map::Entry, hint::unreachable_unchecked};
 
 use aoc::{IterUnwrap, Parse};
 
-use indexmap::IndexSet;
-use rustc_hash::{FxHashMap, FxHasher};
-
-type FxIndexSet<T> = IndexSet<T, BuildHasherDefault<FxHasher>>;
+use rustc_hash::FxHashMap;
 
 aoc::parts!(1, 2);
 
 #[derive(Debug)]
-struct StringToIndex {
-    hm: FxHashMap<String, usize>,
+struct StringToIndex<'a> {
+    hm: FxHashMap<&'a str, usize>,
     i: usize,
 }
 
-impl StringToIndex {
+impl<'a> StringToIndex<'a> {
     fn new() -> Self {
         Self {
             hm: FxHashMap::default(),
@@ -27,7 +21,7 @@ impl StringToIndex {
     }
 
     fn get(&mut self, s: &str) -> usize {
-        match self.hm.entry(s.to_owned()) {
+        match self.hm.entry(unsafe { &*(s as *const _) }) {
             Entry::Occupied(entry) => *entry.get(),
             Entry::Vacant(entry) => {
                 self.i = self.i.wrapping_add(1);
@@ -155,12 +149,7 @@ impl Workflow {
         self.last
     }
 
-    fn apply_range(
-        &self,
-        mut values: [Range; 4],
-        ranges: &mut Vec<Vec<[Range; 4]>>,
-        check: &mut FxIndexSet<usize>,
-    ) -> u64 {
+    fn apply_range(&self, mut values: [Range; 4], workflows: &Vec<Workflow>) -> u64 {
         let mut sum = 0;
         for &Rule {
             category,
@@ -183,8 +172,7 @@ impl Workflow {
                     }
                     SentTo::Rejected => {}
                     SentTo::Label(sent_to) => {
-                        ranges[sent_to].push(values);
-                        check.insert(sent_to);
+                        sum += workflows[sent_to].apply_range(values, workflows);
                     }
                 }
             }
@@ -204,8 +192,7 @@ impl Workflow {
             SentTo::Accepted => sum += values.iter().map(|i| i.end - i.start).product::<u64>(),
             SentTo::Rejected => {}
             SentTo::Label(sent_to) => {
-                ranges[sent_to].push(values);
-                check.insert(sent_to);
+                sum += workflows[sent_to].apply_range(values, workflows);
             }
         }
 
@@ -251,9 +238,12 @@ fn part_1(input: aoc::Input) -> impl ToString {
 fn part_2(input: aoc::Input) -> impl ToString {
     let mut workflows = Vec::with_capacity(input.len());
 
-    let mut input = input.as_lines().split(|i| i.is_empty());
     let mut hm = StringToIndex::new();
-    for i in input.next_uw().into_iter() {
+    for i in input.lines() {
+        if i.is_empty() {
+            break;
+        }
+
         let (position, workflow) = Workflow::new(i, &mut hm);
 
         while workflows.len() <= position {
@@ -264,19 +254,5 @@ fn part_2(input: aoc::Input) -> impl ToString {
     }
 
     let workflows: Vec<_> = workflows.into_iter().map(|i| i.unwrap()).collect();
-    let mut ranges = vec![vec![]; workflows.len()];
-    let mut check = FxIndexSet::default();
-
-    ranges[hm.get("in")].push([Range::new(1, 4001); 4]);
-    check.insert(hm.get("in"));
-
-    let mut sum = 0;
-    while let Some(curr) = check.pop() {
-        let curr_ranges: Vec<_> = ranges[curr].drain(..).collect();
-        for values in curr_ranges {
-            sum += workflows[curr].apply_range(values, &mut ranges, &mut check);
-        }
-    }
-
-    sum
+    workflows[hm.get("in")].apply_range([Range::new(1, 4001); 4], &workflows)
 }

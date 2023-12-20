@@ -1,4 +1,4 @@
-use std::{cmp::Ordering, collections::hash_map::Entry, hint::unreachable_unchecked};
+use std::{cmp::Ordering, hint::unreachable_unchecked};
 
 use aoc::{IterUnwrap, Parse};
 
@@ -9,25 +9,18 @@ aoc::parts!(1, 2);
 #[derive(Debug)]
 struct StringToIndex<'a> {
     hm: FxHashMap<&'a str, usize>,
-    i: usize,
 }
 
 impl<'a> StringToIndex<'a> {
     fn new() -> Self {
         Self {
             hm: FxHashMap::default(),
-            i: usize::MAX,
         }
     }
 
     fn get(&mut self, s: &str) -> usize {
-        match self.hm.entry(unsafe { &*(s as *const _) }) {
-            Entry::Occupied(entry) => *entry.get(),
-            Entry::Vacant(entry) => {
-                self.i = self.i.wrapping_add(1);
-                *entry.insert(self.i)
-            }
-        }
+        let i = self.hm.len();
+        *self.hm.entry(unsafe { &*(s as *const _) }).or_insert(i)
     }
 }
 

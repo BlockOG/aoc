@@ -745,3 +745,12 @@ dependencies = [
  "parse-display",
  "rustc-hash",
 ]
+
+[[package]]
+name = "y2023d20"
+version = "0.1.0"
+dependencies = [
+ "aoclib",
+ "parse-display",
+ "rustc-hash",
+]

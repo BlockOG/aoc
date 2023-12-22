@@ -1,15 +1,15 @@
 [package]
-name = "y2023d19"
+name = "y2023d21"
 version = "0.1.0"
 edition = "2021"
 
 [[bin]]
-name = "y2023d19"
-path = "src/19.rs"
+name = "y2023d21"
+path = "src/21.rs"
 
 [dependencies]
 aoclib = { git = "https://github.com/BlockOG/aoclib" }
-indexmap = "2.1.0"
+colored = "2.1.0"
 parse-display = "0.8.2"
 rustc-hash = "1.1.0"
-string-to-index = { version = "0.1.0", path = "../../string-to-index" }
+wrapping-vec = { version = "0.1.0", path = "../../wrapping-vec" }

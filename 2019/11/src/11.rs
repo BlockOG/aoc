@@ -81,7 +81,7 @@ fn part_2(input: aoc::Input) -> impl ToString {
     }
 
     let mut res = String::with_capacity(81 * 82);
-    for j in -5..=0 {
+    for j in -5..0 + 1 {
         for i in 1..40 {
             if hm.contains_key(&(i, j)) {
                 res.push_str(["  ", "██"][hm[&(i, j)] as usize]);

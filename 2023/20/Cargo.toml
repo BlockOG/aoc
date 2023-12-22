@@ -11,3 +11,4 @@ path = "src/20.rs"
 aoclib = { git = "https://github.com/BlockOG/aoclib" }
 parse-display = "0.8.2"
 rustc-hash = "1.1.0"
+string-to-index = { version = "0.1.0", path = "../../string-to-index" }

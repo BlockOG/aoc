@@ -73,7 +73,7 @@ fn calc(springs: impl Iterator<Item = u8>, continuous_groups: Vec<usize>) -> u64
             0b01 => {
                 for j in 0..continuous_groups.len() {
                     curr[(j + 1) * len] += curr[j * len + continuous_groups[j]];
-                    for k in 1..=continuous_groups[j] {
+                    for k in 1..continuous_groups[j] + 1 {
                         curr[j * len + k] = 0;
                     }
                 }

@@ -7,7 +7,7 @@ fn part_1(input: aoc::Input) -> impl ToString {
     for i in input {
         let mut i: Vec<i32> = i.ints_iter().collect();
 
-        'outer: for j in (1..=i.len()).rev() {
+        'outer: for j in (1..i.len() + 1).rev() {
             for &k in i.iter().take(j) {
                 if k != 0 {
                     for j in 0..j - 1 {

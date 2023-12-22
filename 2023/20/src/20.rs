@@ -2,26 +2,9 @@ use std::{collections::VecDeque, hint::unreachable_unchecked};
 
 use aoc::Parse;
 use rustc_hash::FxHashMap;
+use string_to_index::StringToIndex;
 
 aoc::parts!(1, 2);
-
-#[derive(Debug)]
-struct StringToIndex<'a> {
-    hm: FxHashMap<&'a str, usize>,
-}
-
-impl<'a> StringToIndex<'a> {
-    fn new() -> Self {
-        Self {
-            hm: FxHashMap::default(),
-        }
-    }
-
-    fn get(&mut self, s: &str) -> usize {
-        let i = self.hm.len();
-        *self.hm.entry(unsafe { &*(s as *const _) }).or_insert(i)
-    }
-}
 
 #[derive(Debug, Clone)]
 enum Module {

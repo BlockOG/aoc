@@ -13,7 +13,6 @@ struct Cuboid {
 fn part_1(input: aoc::Input) -> impl ToString {
     let mut max_x = 0;
     let mut max_y = 0;
-    let mut max_z = 0;
 
     let mut cuboids: Vec<Cuboid> = input
         .lines()
@@ -22,7 +21,6 @@ fn part_1(input: aoc::Input) -> impl ToString {
 
             max_x = max_x.max(i[3]);
             max_y = max_y.max(i[4]);
-            max_z = max_z.max(i[5]);
 
             Cuboid {
                 pos1: (i[0], i[1], i[2]),
@@ -33,29 +31,21 @@ fn part_1(input: aoc::Input) -> impl ToString {
 
     cuboids.sort_unstable_by_key(|i| i.pos1.2);
 
-    let mut grid = vec![vec![vec![usize::MAX; max_z + 1]; max_y + 1]; max_x + 1];
-
-    let mut max_x = 0;
-    let mut max_y = 0;
-    let mut max_z = 0;
+    let mut grid = vec![vec![(0, usize::MAX); max_y + 1]; max_x + 1];
 
     let mut resting_on_me = vec![vec![]; cuboids.len()];
     let mut is_resting_on = Vec::with_capacity(cuboids.len());
-    for (i, cuboid) in cuboids.iter_mut().enumerate() {
+    for (i, cuboid) in cuboids.into_iter().enumerate() {
         let mut resting_on = FxHashSet::default();
-        while resting_on.is_empty() {
-            cuboid.pos1.2 -= 1;
-            cuboid.pos2.2 -= 1;
-            if cuboid.pos1.2 < 1 {
-                break;
-            }
-            for x in cuboid.pos1.0..cuboid.pos2.0 + 1 {
-                for y in cuboid.pos1.1..cuboid.pos2.1 + 1 {
-                    for z in cuboid.pos1.2..cuboid.pos2.2 + 1 {
-                        if grid[x][y][z] != usize::MAX {
-                            resting_on.insert(grid[x][y][z]);
-                        }
-                    }
+        let mut z = 1;
+        for x in cuboid.pos1.0..cuboid.pos2.0 + 1 {
+            for y in cuboid.pos1.1..cuboid.pos2.1 + 1 {
+                if grid[x][y].0 >= z {
+                    z = grid[x][y].0 + 1;
+                    resting_on.clear();
+                    resting_on.insert(grid[x][y].1);
+                } else if grid[x][y].1 != usize::MAX && grid[x][y].0 + 1 == z {
+                    resting_on.insert(grid[x][y].1);
                 }
             }
         }
@@ -65,19 +55,12 @@ fn part_1(input: aoc::Input) -> impl ToString {
             resting_on_me[j].push(i);
         }
 
-        cuboid.pos1.2 += 1;
-        cuboid.pos2.2 += 1;
+        z += cuboid.pos2.2 - cuboid.pos1.2;
         for x in cuboid.pos1.0..cuboid.pos2.0 + 1 {
             for y in cuboid.pos1.1..cuboid.pos2.1 + 1 {
-                for z in cuboid.pos1.2..cuboid.pos2.2 + 1 {
-                    grid[x][y][z] = i;
-                }
+                grid[x][y] = (z, i);
             }
         }
-
-        max_x = max_x.max(cuboid.pos2.0);
-        max_y = max_y.max(cuboid.pos2.1);
-        max_z = max_z.max(cuboid.pos2.2);
     }
 
     resting_on_me
@@ -89,7 +72,6 @@ fn part_1(input: aoc::Input) -> impl ToString {
 fn part_2(input: aoc::Input) -> impl ToString {
     let mut max_x = 0;
     let mut max_y = 0;
-    let mut max_z = 0;
 
     let mut cuboids: Vec<Cuboid> = input
         .lines()
@@ -98,7 +80,6 @@ fn part_2(input: aoc::Input) -> impl ToString {
 
             max_x = max_x.max(i[3]);
             max_y = max_y.max(i[4]);
-            max_z = max_z.max(i[5]);
 
             Cuboid {
                 pos1: (i[0], i[1], i[2]),
@@ -109,25 +90,21 @@ fn part_2(input: aoc::Input) -> impl ToString {
 
     cuboids.sort_unstable_by_key(|i| i.pos1.2);
 
-    let mut grid = vec![vec![vec![usize::MAX; max_z + 1]; max_y + 1]; max_x + 1];
+    let mut grid = vec![vec![(0, usize::MAX); max_y + 1]; max_x + 1];
 
     let mut resting_on_me = vec![vec![]; cuboids.len()];
     let mut is_resting_on = Vec::with_capacity(cuboids.len());
-    for (i, cuboid) in cuboids.iter_mut().enumerate() {
+    for (i, cuboid) in cuboids.iter().enumerate() {
         let mut resting_on = FxHashSet::default();
-        while resting_on.is_empty() {
-            cuboid.pos1.2 -= 1;
-            cuboid.pos2.2 -= 1;
-            if cuboid.pos1.2 < 1 {
-                break;
-            }
-            for x in cuboid.pos1.0..cuboid.pos2.0 + 1 {
-                for y in cuboid.pos1.1..cuboid.pos2.1 + 1 {
-                    for z in cuboid.pos1.2..cuboid.pos2.2 + 1 {
-                        if grid[x][y][z] != usize::MAX {
-                            resting_on.insert(grid[x][y][z]);
-                        }
-                    }
+        let mut z = 1;
+        for x in cuboid.pos1.0..cuboid.pos2.0 + 1 {
+            for y in cuboid.pos1.1..cuboid.pos2.1 + 1 {
+                if grid[x][y].0 >= z {
+                    z = grid[x][y].0 + 1;
+                    resting_on.clear();
+                    resting_on.insert(grid[x][y].1);
+                } else if grid[x][y].1 != usize::MAX && grid[x][y].0 + 1 == z {
+                    resting_on.insert(grid[x][y].1);
                 }
             }
         }
@@ -137,65 +114,38 @@ fn part_2(input: aoc::Input) -> impl ToString {
             resting_on_me[j].push(i);
         }
 
-        cuboid.pos1.2 += 1;
-        cuboid.pos2.2 += 1;
+        z += cuboid.pos2.2 - cuboid.pos1.2;
         for x in cuboid.pos1.0..cuboid.pos2.0 + 1 {
             for y in cuboid.pos1.1..cuboid.pos2.1 + 1 {
-                for z in cuboid.pos1.2..cuboid.pos2.2 + 1 {
-                    grid[x][y][z] = i;
-                }
+                grid[x][y] = (z, i);
             }
         }
     }
 
-    (0..resting_on_me.len())
+    (0..cuboids.len())
         .into_par_iter()
         .map(|i| {
-            recurse(
+            disintegrate(
                 i,
-                cuboids.clone(),
-                vec![vec![vec![usize::MAX; max_z + 1]; max_y + 1]; max_x + 1],
+                &resting_on_me,
+                &is_resting_on,
+                &mut vec![0; cuboids.len()],
             )
         })
         .sum::<usize>()
 }
 
-fn recurse(i: usize, mut cuboids: Vec<Cuboid>, mut grid: Vec<Vec<Vec<usize>>>) -> usize {
-    cuboids.remove(i);
-
+fn disintegrate(
+    i: usize,
+    resting_on_me: &Vec<Vec<usize>>,
+    is_resting_on: &Vec<usize>,
+    count: &mut Vec<usize>,
+) -> usize {
     let mut sum = 0;
-    for (i, cuboid) in cuboids.iter_mut().enumerate() {
-        let mut fell = 0;
-        'outer: loop {
-            cuboid.pos1.2 -= 1;
-            cuboid.pos2.2 -= 1;
-            fell += 1;
-            if cuboid.pos1.2 < 1 {
-                break;
-            }
-            for x in cuboid.pos1.0..cuboid.pos2.0 + 1 {
-                for y in cuboid.pos1.1..cuboid.pos2.1 + 1 {
-                    for z in cuboid.pos1.2..cuboid.pos2.2 + 1 {
-                        if grid[x][y][z] != usize::MAX {
-                            break 'outer;
-                        }
-                    }
-                }
-            }
-        }
-
-        if fell > 1 {
-            sum += 1;
-        }
-
-        cuboid.pos1.2 += 1;
-        cuboid.pos2.2 += 1;
-        for x in cuboid.pos1.0..cuboid.pos2.0 + 1 {
-            for y in cuboid.pos1.1..cuboid.pos2.1 + 1 {
-                for z in cuboid.pos1.2..cuboid.pos2.2 + 1 {
-                    grid[x][y][z] = i;
-                }
-            }
+    for &j in resting_on_me[i].iter() {
+        count[j] += 1;
+        if count[j] == is_resting_on[j] {
+            sum += 1 + disintegrate(j, resting_on_me, is_resting_on, count);
         }
     }
 

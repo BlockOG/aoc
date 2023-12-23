@@ -932,3 +932,12 @@ dependencies = [
  "rayon",
  "rustc-hash",
 ]
+
+[[package]]
+name = "y2023d23"
+version = "0.1.0"
+dependencies = [
+ "aoclib",
+ "parse-display",
+ "rustc-hash",
+]

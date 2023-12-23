@@ -89,32 +89,32 @@ fn part_2(input: aoc::Input) -> impl ToString {
             }
 
             odd_center += (x.abs_diff(N / 2) + y.abs_diff(N / 2)) & 1;
-            even_center += 1 - ((x.abs_diff(N / 2) + y.abs_diff(N / 2)) & 1);
+            even_center += !(x.abs_diff(N / 2) + y.abs_diff(N / 2)) & 1;
 
             if x.abs_diff(N / 2) + y <= N {
-                down += 1 - ((x.abs_diff(N / 2) + y) & 1);
+                down += !(x.abs_diff(N / 2) + y) & 1;
             }
             if x + y.abs_diff(N / 2) <= N {
-                right += 1 - ((x + y.abs_diff(N / 2)) & 1);
+                right += !(x + y.abs_diff(N / 2)) & 1;
             }
             if x.abs_diff(N / 2) + N - 1 - y <= N {
-                up += 1 - ((x.abs_diff(N / 2) + N - 1 - y) & 1);
+                up += !(x.abs_diff(N / 2) + N - 1 - y) & 1;
             }
             if N - 1 - x + y.abs_diff(N / 2) <= N {
-                left += 1 - ((N - 1 - x + y.abs_diff(N / 2)) & 1);
+                left += !(N - 1 - x + y.abs_diff(N / 2)) & 1;
             }
 
             if N * 2 - 2 - x - y < N / 2 {
-                up_left_small += 1 - ((N * 2 - 2 - x - y) & 1);
+                up_left_small += !(N * 2 - 2 - x - y) & 1;
             }
             if x + N - 1 - y < N / 2 {
-                up_right_small += 1 - ((x + N - 1 - y) & 1);
+                up_right_small += !(x + N - 1 - y) & 1;
             }
             if N - 1 - x + y < N / 2 {
-                down_left_small += 1 - ((N - 1 - x + y) & 1);
+                down_left_small += !(N - 1 - x + y) & 1;
             }
             if x + y < N / 2 {
-                down_right_small += 1 - ((x + y) & 1);
+                down_right_small += !(x + y) & 1;
             }
 
             if N * 2 - 2 - x - y <= N + N / 2 {

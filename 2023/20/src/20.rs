@@ -2,7 +2,7 @@ use std::{collections::VecDeque, hint::unreachable_unchecked};
 
 use aoc::Parse;
 use rustc_hash::FxHashMap;
-use string_to_index::StringToIndex;
+use value_to_index::StringToIndex;
 
 aoc::parts!(1, 2);
 

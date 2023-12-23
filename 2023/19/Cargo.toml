@@ -12,4 +12,4 @@ aoclib = { git = "https://github.com/BlockOG/aoclib" }
 indexmap = "2.1.0"
 parse-display = "0.8.2"
 rustc-hash = "1.1.0"
-string-to-index = { version = "0.1.0", path = "../../string-to-index" }
+value-to-index = { version = "0.1.0", path = "../../value-to-index" }

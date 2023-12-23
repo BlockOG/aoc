@@ -1,7 +1,7 @@
 use std::{cmp::Ordering, hint::unreachable_unchecked};
 
 use aoc::{IterUnwrap, Parse};
-use string_to_index::StringToIndex;
+use value_to_index::StringToIndex;
 
 aoc::parts!(1, 2);
 

@@ -316,13 +316,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "836fa6a3e1e547f9a2c4040802ec865b5d85f4014efe00555d7090a3dcaa1090"
 
 [[package]]
-name = "string-to-index"
-version = "0.1.0"
-dependencies = [
- "rustc-hash",
-]
-
-[[package]]
 name = "structmeta"
 version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -381,6 +374,13 @@ name = "unicode-ident"
 version = "1.0.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3354b9ac3fae1ff6755cb6db53683adb661634f67557942dea4facebec0fee4b"
+
+[[package]]
+name = "value-to-index"
+version = "0.1.0"
+dependencies = [
+ "rustc-hash",
+]
 
 [[package]]
 name = "windows-sys"
@@ -900,7 +900,7 @@ dependencies = [
  "indexmap",
  "parse-display",
  "rustc-hash",
- "string-to-index",
+ "value-to-index",
 ]
 
 [[package]]
@@ -910,7 +910,7 @@ dependencies = [
  "aoclib",
  "parse-display",
  "rustc-hash",
- "string-to-index",
+ "value-to-index",
 ]
 
 [[package]]

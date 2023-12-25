@@ -1,4 +1,4 @@
-Solutions to the puzzles at [Advent of Code](https://adventofcode.com) using [aocli](https://github.com/sncxyz/aocli).
+Solutions to the puzzles at [Advent of Code](https://adventofcode.com) using a changed clone of [aocli](https://github.com/sncxyz/aocli). Tiles below use [aoc_tiles](https://github.com/LiquidFun/aoc_tiles).
 
 <!-- AOC TILES BEGIN -->
 <h1 align="center">

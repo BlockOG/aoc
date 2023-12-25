@@ -1,3 +1,6 @@
 /target
 /.session
+/session.cookie
 **/data/
+/.aoc_tiles/**/*
+!/.aoc_tiles/tiles/
